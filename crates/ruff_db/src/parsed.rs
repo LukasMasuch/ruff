@@ -66,17 +66,17 @@ mod tests {
     use crate::file_system::FileSystemPath;
     use crate::parsed::parsed_module;
     use crate::tests::TestDb;
-    use crate::Db;
+    use crate::vfs::file_system_path_to_file;
 
     #[test]
     fn python_file() -> crate::file_system::Result<()> {
         let mut db = TestDb::new();
-        let path = FileSystemPath::new("test.py");
+        let path = "test.py";
 
         db.file_system_mut()
             .write_file(path, "x = 10".to_string())?;
 
-        let file = db.file(path);
+        let file = file_system_path_to_file(&db, path);
 
         let parsed = parsed_module(&db, file);
 
@@ -93,7 +93,7 @@ mod tests {
         db.file_system_mut()
             .write_file(path, "%timeit a = b".to_string())?;
 
-        let file = db.file(path);
+        let file = file_system_path_to_file(&db, path);
 
         let parsed = parsed_module(&db, file);
 
