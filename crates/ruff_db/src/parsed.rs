@@ -76,7 +76,7 @@ mod tests {
         db.file_system_mut()
             .write_file(path, "x = 10".to_string())?;
 
-        let file = file_system_path_to_file(&db, path);
+        let file = file_system_path_to_file(&db, path).unwrap();
 
         let parsed = parsed_module(&db, file);
 
@@ -93,7 +93,7 @@ mod tests {
         db.file_system_mut()
             .write_file(path, "%timeit a = b".to_string())?;
 
-        let file = file_system_path_to_file(&db, path);
+        let file = file_system_path_to_file(&db, path).unwrap();
 
         let parsed = parsed_module(&db, file);
 
